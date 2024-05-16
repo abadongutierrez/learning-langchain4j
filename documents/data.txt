@@ -1,0 +1,7 @@
+John is a Business Man
+Carlos is a Basketball Player
+Diego is a Accountant
+Matt is a Software Developer
+John likes Chinese Food
+Diego likes Japanese Food and Mexican Food
+Matt likes Hamburgers and Asian Food

@@ -1,0 +1,7 @@
+Student, Math Grade, Physics Grade
+Linda, 9, 8
+Jon, 7,  7
+Pedro, 10, 10
+Pancho, 5, 5
+Carlos, 8, 8
+Matt, 8, 9
