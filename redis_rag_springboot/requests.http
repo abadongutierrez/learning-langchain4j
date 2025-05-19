@@ -13,7 +13,8 @@ Content-Type: text/plain
 POST http://localhost:8080/api/rag/query
 Content-Type: text/plain
 
-and "watch out"?
+VOO stock price
+
 
 
 
