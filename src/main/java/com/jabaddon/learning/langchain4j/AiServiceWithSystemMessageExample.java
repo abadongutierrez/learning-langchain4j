@@ -1,13 +1,13 @@
 package com.jabaddon.learning.langchain4j;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
 
 public class AiServiceWithSystemMessageExample {
     public static void main(String[] args) {
-        ChatLanguageModel chatModel = OllamaChatModel.builder()
+        ChatModel chatModel = OllamaChatModel.builder()
                 .baseUrl(String.format("http://localhost:11434/"))
                 .modelName("llama2")
                 .temperature(0.0)

@@ -4,16 +4,16 @@ import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.agent.tool.ToolSpecifications;
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.output.Response;
-
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import dev.langchain4j.model.chat.request.ChatRequest;
+import dev.langchain4j.model.chat.response.ChatResponse;
 
 public class ToolsLowLevelApiExample {
     public static void main(String[] args) {
@@ -41,8 +41,12 @@ public class ToolsLowLevelApiExample {
                 "What is the weather in Mexico City in Fahrenheit"
         ).forEach(msg -> {
             UserMessage userMessage = UserMessage.userMessage(TextContent.from(msg));
-            Response<AiMessage> generate = chatModel.generate(Collections.singletonList(userMessage), toolSpecifications);
-            System.out.printf("Response: %s, hasToolExecution: %b", generate.content().text(), generate.content().hasToolExecutionRequests());
+            ChatRequest request = ChatRequest.builder()
+                    .messages(Collections.singletonList(userMessage))
+                    .toolSpecifications(toolSpecifications)
+                    .build();
+            ChatResponse generate = chatModel.chat(request);
+            System.out.printf("Response: %s, hasToolExecution: %b", generate.aiMessage().text(), generate.aiMessage().hasToolExecutionRequests());
         });
 
     }

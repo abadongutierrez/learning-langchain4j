@@ -1,25 +1,16 @@
 package com.jabaddon.learning.langchain4j;
 
-import dev.langchain4j.chain.ConversationalChain;
-import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.TokenWindowChatMemory;
-import dev.langchain4j.model.StreamingResponseHandler;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 //import dev.langchain4j.model.openai.OpenAiChatModel;
 //import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.model.ollama.OllamaStreamingChatModel;
-import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
-import dev.langchain4j.model.openai.OpenAiTokenizer;
-import dev.langchain4j.model.output.Response;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import dev.langchain4j.model.openai.OpenAiTokenCountEstimator;
 import java.util.Scanner;
+
+import dev.langchain4j.model.chat.response.ChatResponse;
 
 public class MySuperSimpleStreamingConversationalBotExample {
     public static void main(String[] args) {
@@ -33,14 +24,14 @@ public class MySuperSimpleStreamingConversationalBotExample {
 ////                .logResponses(true)
 //                .build();
 
-        StreamingChatLanguageModel chatModel = OllamaStreamingChatModel.builder()
+        OllamaStreamingChatModel chatModel = OllamaStreamingChatModel.builder()
                 .baseUrl(String.format("http://localhost:11434/"))
                 .modelName("llama2")
                 .temperature(0.0)
                 .build();
 
         // Mi Bot super sencillo con LangChain4j
-        ChatMemory chatMemory = TokenWindowChatMemory.withMaxTokens(300, new OpenAiTokenizer("gpt-3.5-turbo"));
+        ChatMemory chatMemory = TokenWindowChatMemory.withMaxTokens(300, new OpenAiTokenCountEstimator("gpt-3.5-turbo"));
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print("[User]> ");
@@ -50,9 +41,9 @@ public class MySuperSimpleStreamingConversationalBotExample {
             System.out.print("[AI]> ");
             WaitingThread thread = new WaitingThread();
             thread.start();
-            chatModel.generate(chatMemory.messages(), new StreamingResponseHandler<>() {
+            chatModel.chat(chatMemory.messages(), new StreamingChatResponseHandler() {
                 @Override
-                public void onNext(String token) {
+                public void onPartialResponse(String token) {
                     System.out.print(token);
                 }
 
@@ -62,8 +53,8 @@ public class MySuperSimpleStreamingConversationalBotExample {
                 }
 
                 @Override
-                public void onComplete(Response<AiMessage> response) {
-                    chatMemory.add(response.content());
+                public void onCompleteResponse(ChatResponse response) {
+                    chatMemory.add(response.aiMessage());
                     System.out.println();
                     thread.finish();
                 }

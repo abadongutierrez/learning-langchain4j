@@ -17,7 +17,7 @@ public class ToolsHighLevelApiExample {
                 .build();
 
         HighLevelToolAssistant assistant =
-            AiServices.builder(HighLevelToolAssistant.class).tools(new LowLevelTool()).chatLanguageModel(chatModel).build();
+            AiServices.builder(HighLevelToolAssistant.class).tools(new LowLevelTool()).chatModel(chatModel).build();
 
         List.of(
                 "1 + 10",

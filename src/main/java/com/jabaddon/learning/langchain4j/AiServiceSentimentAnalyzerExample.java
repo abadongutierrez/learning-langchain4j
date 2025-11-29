@@ -1,6 +1,6 @@
 package com.jabaddon.learning.langchain4j;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
@@ -9,9 +9,11 @@ import dev.langchain4j.service.UserMessage;
 import java.time.Duration;
 import java.util.List;
 
+import dev.langchain4j.model.chat.request.ResponseFormat;
+
 public class AiServiceSentimentAnalyzerExample {
     public static void main(String[] args) {
-        List<ChatLanguageModel> models = List.of(
+        List<ChatModel> models = List.of(
                 createOllamaChatModel(),
                 createOpenAIChatModel());
 
@@ -19,7 +21,7 @@ public class AiServiceSentimentAnalyzerExample {
 
         for (int i = 0; i < aiServices.size(); i++) {
             SentimentAnalyzer sentimentAnalyzer = aiServices.get(i);
-            ChatLanguageModel model = models.get(i);
+            ChatModel model = models.get(i);
             switch (model) {
                 case OpenAiChatModel openAiChatModel -> System.out.println("OpenA:");
                 case OllamaChatModel ollamaChatModel -> System.out.println("Ollama:");
@@ -55,7 +57,7 @@ public class AiServiceSentimentAnalyzerExample {
         return OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434/")
                 .modelName("llama2")
-                .format("json")
+                .responseFormat(ResponseFormat.JSON)
                 .build();
     }
 }

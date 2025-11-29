@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import dev.langchain4j.model.chat.response.ChatResponse;
+
 public class MySuperSimpleConversationalBotExample {
     public static void main(String[] args) {
 
@@ -32,9 +34,9 @@ public class MySuperSimpleConversationalBotExample {
             if (userInput.equalsIgnoreCase("<exit>")) break;
             UserMessage newUserMessage = UserMessage.from(userInput);
             chatMemory.add(newUserMessage);
-            Response<AiMessage> aiMessageResponse = chatModel.generate(chatMemory);
-            chatMemory.add(aiMessageResponse.content());
-            System.out.println("[AI]> " + aiMessageResponse.content().text());
+            ChatResponse aiMessageResponse = chatModel.chat(chatMemory);
+            chatMemory.add(aiMessageResponse.aiMessage());
+            System.out.println("[AI]> " + aiMessageResponse.aiMessage().text());
         }
     }
 }
