@@ -1,0 +1,20 @@
+### Ingest a document
+POST http://localhost:8080/api/rag/ingest
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="rag.txt"
+Content-Type: text/plain
+
+< ./rag.txt
+------WebKitFormBoundary--
+
+### Query the RAG system
+POST http://localhost:8080/api/rag/query
+Content-Type: text/plain
+
+VOO stock price
+
+
+
+

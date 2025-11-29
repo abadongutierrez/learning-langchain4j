@@ -8,7 +8,7 @@ public class AiServiceExample {
     public static void main(String[] args) {
         ChatModel chatModel = OllamaChatModel.builder()
                 .baseUrl(String.format("http://localhost:11434/"))
-                .modelName("llama2")
+                .modelName("deepseek-r1")
                 .temperature(0.0)
                 .build();
 
