@@ -1,4 +1,4 @@
-package com.jabaddon.learning.langchain4j.chatnlanguagemodesl;
+package com.jabaddon.learning.langchain4j.chatnlanguagemodels;
 
 import dev.langchain4j.model.language.LanguageModel;
 import dev.langchain4j.model.ollama.OllamaLanguageModel;
